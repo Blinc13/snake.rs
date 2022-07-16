@@ -1,2 +1,2 @@
 pub mod cell;
-mod snake;
+pub mod snake;
