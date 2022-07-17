@@ -24,19 +24,27 @@ impl<'a> Snake<'a> {
     pub fn update(&mut self, delta: f64) {
         self.update_dir();
 
+        let mut last_pos = self.parts[0].get_pos() - self.dir;
         for cell in self.parts.iter_mut() {
-            let mut pos = cell.get_pos();
+            let pos = cell.get_pos();
 
-            pos -= self.dir;
-
-            cell.set_pos(pos);
-
-            println!("Pos: {} - {}", pos.x, pos.y);
+            cell.set_pos(last_pos);
+            last_pos = pos;
         }
     }
 
     pub fn eat_apple(&mut self) {
+        self.parts.push(SnakeCell::new(Vector2i::new(0, 0)));
+    }
 
+    pub fn check_collision(&self, pos: Vector2i) -> bool {
+        for cell in self.parts.iter() {
+            if pos == cell.get_pos() {
+                return true;
+            }
+        }
+
+        false
     }
 
     pub fn draw(&self, window: &mut RenderWindow) {
@@ -58,7 +66,5 @@ impl<'a> Snake<'a> {
             } else {
                 self.dir
             };
-
-        println!("Dir: {} - {}", self.dir.x, self.dir.y);
     }
 }
