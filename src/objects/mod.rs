@@ -1,2 +1,6 @@
+pub use snake::Snake;
+pub use apple::Apple;
+
 pub mod cell;
-pub mod snake;
+mod snake;
+mod apple;
