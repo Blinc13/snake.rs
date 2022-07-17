@@ -2,7 +2,10 @@ use sfml::{
     graphics::*,
     system::*
 };
-use crate::objects::cell::Cell;
+use crate::{
+    objects,
+    objects::cell::Cell
+};
 
 pub struct Apple<'a> {
     pos: Vector2i,
@@ -15,6 +18,7 @@ impl<'a> Apple<'a> {
 
         sprite.set_fill_color(Color::RED);
         sprite.set_size(Vector2f::new(10.0, 10.0));
+        sprite.set_position(objects::i_to_f(pos)*10.0);
 
         Self {
             pos,
@@ -27,9 +31,7 @@ impl Cell for Apple<'_> {
     fn set_pos(&mut self, pos: Vector2i) {
         self.pos = pos;
 
-        let pos = Vector2f::new(pos.x as f32, pos.y as f32);
-
-        self.sprite.set_position(pos*10);
+        self.sprite.set_position(objects::i_to_f(pos)*10.0);
     }
 
     fn get_pos(&self) -> Vector2i {

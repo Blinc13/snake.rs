@@ -1,9 +1,11 @@
-use crate::objects::cell::Cell;
+use crate::{
+    objects,
+    objects::cell::Cell
+};
 use sfml::{
     graphics::*,
     system::*
 };
-use sfml::system::Vector2i;
 
 pub struct SnakeCell<'a> {
     pos: Vector2i,
@@ -31,10 +33,7 @@ impl Cell for SnakeCell<'_> {
     fn set_pos(&mut self, mut pos: Vector2i) {
         self.pos = pos;
 
-        pos*=10;
-        let pos = Vector2f::new(pos.x as f32, pos.y as f32);
-
-        self.sprite.set_position(pos);
+        self.sprite.set_position(objects::i_to_f(pos)*10.0);
     }
     fn get_pos(&self) -> Vector2i {
        self.pos

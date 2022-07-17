@@ -21,7 +21,7 @@ impl<'a> Snake<'a> {
         }
     }
 
-    pub fn update(&mut self, delta: f64) {
+    pub fn update(&mut self) {
         self.update_dir();
 
         let mut last_pos = self.parts[0].get_pos() - self.dir;
@@ -66,5 +66,7 @@ impl<'a> Snake<'a> {
             } else {
                 self.dir
             };
+
+        println!("Dir: {} - {}", self.dir.x, self.dir.y);
     }
 }
