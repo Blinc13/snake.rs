@@ -37,7 +37,7 @@ impl<'a> Game<'a> {
         window.set_framerate_limit(10);
 
         Self {
-            snake: Snake::new(),
+            snake: Snake::new(Vector2i::new((width/2) as i32, (height/2) as i32)),
             field_size: Vector2u::new(width, height),
             window
         }
@@ -51,10 +51,12 @@ impl<'a> Game<'a> {
                 self.window.close();
             }
 
-            if self.snake.check_collision(apple.get_pos()) {
+            if  self.snake.check_collision(apple.get_pos()) {
                 apple.set_pos(self.get_random_position());
-
                 self.snake.eat_apple();
+            }
+            if self.snake.check_head() {
+                self.window.close();
             }
 
             self.snake.update();

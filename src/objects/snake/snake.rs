@@ -12,9 +12,7 @@ pub struct Snake<'a> {
 }
 
 impl<'a> Snake<'a> {
-    pub fn new() -> Self {
-        let pos = Vector2i::new(0, 0);
-
+    pub fn new(pos: Vector2i) -> Self {
         Self {
             parts: vec![SnakeCell::new(pos)],
             dir: Vector2i::new(0, 1)
@@ -37,6 +35,17 @@ impl<'a> Snake<'a> {
         self.parts.push(SnakeCell::new(Vector2i::new(0, 0)));
     }
 
+    pub fn check_head(&self) -> bool {
+        let head = self.parts[0].get_pos();
+        for cell in self.parts.iter().skip(1) {
+            if cell.get_pos() == head {
+                return true;
+            }
+        }
+
+        false
+    }
+
     pub fn check_collision(&self, pos: Vector2i) -> bool {
         for cell in self.parts.iter() {
             if pos == cell.get_pos() {
@@ -54,7 +63,7 @@ impl<'a> Snake<'a> {
     }
 
     fn update_dir(&mut self) {
-        self.dir =
+        let dir =
             if Key::W.is_pressed() {
                 Vector2i::new(0, 1)
             } else if Key::S.is_pressed() {
@@ -67,6 +76,8 @@ impl<'a> Snake<'a> {
                 self.dir
             };
 
-        println!("Dir: {} - {}", self.dir.x, self.dir.y);
+        if dir + self.dir != Vector2i::new(0, 0) {
+            self.dir = dir;
+        }
     }
 }
