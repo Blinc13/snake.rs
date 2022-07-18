@@ -5,13 +5,15 @@ use sfml::{graphics::RenderWindow, system::*, window::Key};
 pub struct Snake<'a> {
     parts: Vec<SnakeCell<'a>>,
     dir: Vector2i,
+    size: f32
 }
 
 impl<'a> Snake<'a> {
-    pub fn new(pos: Vector2i) -> Self {
+    pub fn new(pos: Vector2i, size: u32) -> Self {
         Self {
-            parts: vec![SnakeCell::new(pos)],
+            parts: vec![SnakeCell::new(pos, size)],
             dir: Vector2i::new(0, 1),
+            size: size as f32
         }
     }
 
@@ -28,7 +30,7 @@ impl<'a> Snake<'a> {
     }
 
     pub fn eat_apple(&mut self) {
-        self.parts.push(SnakeCell::new(Vector2i::new(0, 0)));
+        self.parts.push(SnakeCell::new(Vector2i::new(0, 0), self.size as u32));
     }
 
     pub fn check_head(&self) -> bool {

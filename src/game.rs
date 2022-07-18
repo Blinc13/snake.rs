@@ -11,12 +11,14 @@ pub struct Game<'a> {
     snake: Snake<'a>,
     field_size: Vector2u,
     window: RenderWindow,
+    pixel_size: u32
 }
 
 impl<'a> Game<'a> {
-    pub fn new(width: u32, height: u32) -> Self {
+    pub fn new(width: u32, height: u32, pixel_size: u32) -> Self {
         let mut window = RenderWindow::new(
-            VideoMode::new(width * 10, height * 10, 8),
+            VideoMode::new(width * pixel_size,
+                           height * pixel_size, 8),
             "Snake",
             Style::default(),
             &ContextSettings::default(),
@@ -24,14 +26,15 @@ impl<'a> Game<'a> {
         window.set_framerate_limit(10);
 
         Self {
-            snake: Snake::new(Vector2i::new((width / 2) as i32, (height / 2) as i32)),
+            snake: Snake::new(Vector2i::new((width / 2) as i32, (height / 2) as i32), pixel_size),
             field_size: Vector2u::new(width, height),
             window,
+            pixel_size
         }
     }
 
     pub fn start(mut self) {
-        let mut apple = Apple::new(self.get_random_position());
+        let mut apple = Apple::new(self.get_random_position(), self.pixel_size);
 
         while self.window.is_open() {
             if let Some(Event::Closed) = self.window.poll_event() {
