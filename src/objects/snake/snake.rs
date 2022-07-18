@@ -56,6 +56,13 @@ impl<'a> Snake<'a> {
         false
     }
 
+    pub fn head_inside(&self, rect: Vector2u) -> bool {
+        let pos = self.parts[0].get_pos();
+
+        (0..rect.x).contains(&(pos.x as u32)) &&
+            (0..rect.y).contains(&(pos.y as u32))
+    }
+
     pub fn draw(&self, window: &mut RenderWindow) {
         for cell in self.parts.iter() {
             cell.draw(window);

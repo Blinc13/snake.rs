@@ -55,7 +55,7 @@ impl<'a> Game<'a> {
                 apple.set_pos(self.get_random_position());
                 self.snake.eat_apple();
             }
-            if self.snake.check_head() {
+            if self.snake.check_head() || !self.snake.head_inside(self.field_size) {
                 self.window.close();
             }
 
