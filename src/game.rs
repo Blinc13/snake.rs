@@ -1,45 +1,32 @@
-use rand::Rng;
-use crate::objects::{
-    Snake,
-    Apple
-};
-use sfml::{
-    graphics::{
-        Color,
-        RenderWindow,
-        RenderTarget
-    },
-    window::{
-        Style,
-        Event,
-        VideoMode,
-        ContextSettings
-    },
-    system::*
-};
 use crate::objects::cell::Cell;
-
+use crate::objects::{Apple, Snake};
+use rand::Rng;
+use sfml::{
+    graphics::{Color, RenderTarget, RenderWindow},
+    system::*,
+    window::{ContextSettings, Event, Style, VideoMode},
+};
 
 pub struct Game<'a> {
     snake: Snake<'a>,
     field_size: Vector2u,
-    window: RenderWindow
+    window: RenderWindow,
 }
 
 impl<'a> Game<'a> {
     pub fn new(width: u32, height: u32) -> Self {
         let mut window = RenderWindow::new(
-            VideoMode::new(width*10, height*10, 8),
+            VideoMode::new(width * 10, height * 10, 8),
             "Snake",
             Style::default(),
-            &ContextSettings::default()
+            &ContextSettings::default(),
         );
         window.set_framerate_limit(10);
 
         Self {
-            snake: Snake::new(Vector2i::new((width/2) as i32, (height/2) as i32)),
+            snake: Snake::new(Vector2i::new((width / 2) as i32, (height / 2) as i32)),
             field_size: Vector2u::new(width, height),
-            window
+            window,
         }
     }
 
@@ -51,7 +38,7 @@ impl<'a> Game<'a> {
                 self.window.close();
             }
 
-            if  self.snake.check_collision(apple.get_pos()) {
+            if self.snake.check_collision(apple.get_pos()) {
                 apple.set_pos(self.get_random_position());
                 self.snake.eat_apple();
             }

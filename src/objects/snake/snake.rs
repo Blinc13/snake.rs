@@ -1,21 +1,17 @@
 use super::snake_cell::SnakeCell;
-use sfml::{
-    system::*,
-    window::Key,
-    graphics::RenderWindow
-};
 use crate::objects::cell::Cell;
+use sfml::{graphics::RenderWindow, system::*, window::Key};
 
 pub struct Snake<'a> {
     parts: Vec<SnakeCell<'a>>,
-    dir: Vector2i
+    dir: Vector2i,
 }
 
 impl<'a> Snake<'a> {
     pub fn new(pos: Vector2i) -> Self {
         Self {
             parts: vec![SnakeCell::new(pos)],
-            dir: Vector2i::new(0, 1)
+            dir: Vector2i::new(0, 1),
         }
     }
 
@@ -59,8 +55,7 @@ impl<'a> Snake<'a> {
     pub fn head_inside(&self, rect: Vector2u) -> bool {
         let pos = self.parts[0].get_pos();
 
-        (0..rect.x).contains(&(pos.x as u32)) &&
-            (0..rect.y).contains(&(pos.y as u32))
+        (0..rect.x).contains(&(pos.x as u32)) && (0..rect.y).contains(&(pos.y as u32))
     }
 
     pub fn draw(&self, window: &mut RenderWindow) {
@@ -70,18 +65,17 @@ impl<'a> Snake<'a> {
     }
 
     fn update_dir(&mut self) {
-        let dir =
-            if Key::W.is_pressed() {
-                Vector2i::new(0, 1)
-            } else if Key::S.is_pressed() {
-                Vector2i::new(0, -1)
-            } else if Key::A.is_pressed() {
-                Vector2i::new(1, 0)
-            } else if Key::D.is_pressed() {
-                Vector2i::new(-1, 0)
-            } else {
-                self.dir
-            };
+        let dir = if Key::W.is_pressed() {
+            Vector2i::new(0, 1)
+        } else if Key::S.is_pressed() {
+            Vector2i::new(0, -1)
+        } else if Key::A.is_pressed() {
+            Vector2i::new(1, 0)
+        } else if Key::D.is_pressed() {
+            Vector2i::new(-1, 0)
+        } else {
+            self.dir
+        };
 
         if dir + self.dir != Vector2i::new(0, 0) {
             self.dir = dir;

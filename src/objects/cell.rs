@@ -1,7 +1,4 @@
-use sfml::{
-    graphics::*,
-    system::*
-};
+use sfml::{graphics::*, system::*};
 
 pub trait Cell {
     fn draw(&self, window: &mut RenderWindow);
